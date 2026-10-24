@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<meta name="robots" content="noindex, nofollow">
+<title>Starter deck · paper + bookmark theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  /* ── Theme: swap these tokens for another look (references/themes.md) ── */
+  :root {
+    --paper: #FAF5EA; --paper-deep: #F0E6D0; --paper-line: #DDD0B4;   /* page, panels, hairlines */
+    --cloth: #7A4A2E; --cloth-edge: #5A3420; --foil: #EAD9B0;          /* the bookmark: cloth body, gold-foil text */
+    --ink: #2B2724; --ink-soft: #4A433D; --ink-muted: #7A6048;         /* text, three strengths */
+    --card: #FFFFFF;
+    --accent: #B23A48;                                                 /* the ONE accent: the bookmark string */
+    --title: "Gowun Batang", serif; --body: "Gowun Dodum", sans-serif;
+  }
+  /* ── Canva import rules (references/pitfalls.md): absolute layout, no box-shadow (use .sh), no clip-path,
+        no <img> (empty .frame, fill in Canva), badges as flex siblings, notes in data-speaker-notes ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #d8cfbf; font-family: var(--body); color: var(--ink); }
+  section[data-document-role="page"] {
+    position: relative; width: 1920px; height: 1080px; overflow: hidden;
+    background: var(--paper); margin: 0 auto 40px;
+  }
+  .abs { position: absolute; }
+  .label { position: absolute; top: 72px; left: 120px; font-size: 26px; letter-spacing: 6px; color: var(--ink-muted); }
+  .page-no { position: absolute; bottom: 64px; right: 120px; font-size: 24px; letter-spacing: 4px; color: var(--ink-muted); }
+  .rule { position: absolute; left: 120px; right: 120px; bottom: 120px; height: 2px; background: var(--paper-line); }
+  h1, h2 { font-family: var(--title); font-weight: 700; color: var(--ink); }
+  h2 { position: absolute; top: 140px; left: 120px; width: 1680px; font-size: 72px; line-height: 1.25; }
+  h2 em { font-style: normal; color: var(--accent); }
+  .note { position: absolute; left: 120px; top: 880px; width: 1680px; font-size: 24px; line-height: 1.5; color: var(--ink-muted); }
+
+  /* hard shadow = its own block behind the card (box-shadow does not import) */
+  .sh { position: absolute; background: var(--ink); }
+  .box { position: absolute; background: var(--card); border: 3px solid var(--ink); }
+
+  /* ── cover ── */
+  .cover h1 { position: absolute; left: 120px; top: 300px; width: 1300px; font-size: 128px; line-height: 1.22; letter-spacing: -2px; }
+  .cover .sub { position: absolute; left: 124px; top: 690px; font-size: 34px; color: var(--ink-soft); }
+  .cover .who { position: absolute; left: 124px; bottom: 150px; font-size: 30px; color: var(--ink-muted); }
+
+  /* ── the bookmark (cover + divider): string, ring, cloth body, stitched border, swallow-tail notch ── */
+  .bm-cord   { position: absolute; width: 6px; background: var(--accent); }
+  .bm-ring   { position: absolute; width: 32px; height: 32px; border-radius: 50%; border: 6px solid var(--accent); background: var(--paper); }
+  .bm-body   { position: absolute; background: var(--cloth); border: 4px solid var(--cloth-edge); }
+  .bm-stitch { position: absolute; border: 3px dashed var(--foil); }
+  .bm-notch  { position: absolute; background: var(--paper); transform: rotate(45deg); }  /* paper square bites the tail */
+  .bm-text   { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center;
+               font-family: var(--title); font-weight: 700; color: var(--foil); line-height: 1.3; }
+
+  /* ── cards (three ideas side by side) ── */
+  .card { padding: 44px 40px; display: flex; flex-direction: column; gap: 22px; }
+  .card .k { font-size: 24px; letter-spacing: 4px; color: var(--ink-muted); }
+  .card .v { font-family: var(--title); font-weight: 700; font-size: 50px; line-height: 1.25; }
+  .card .d { font-size: 28px; line-height: 1.5; color: var(--ink-soft); }
+  .card.hot { border-color: var(--accent); }
+  .card.hot .v { color: var(--accent); }
+
+  /* ── big number ── */
+  .big { position: absolute; left: 120px; top: 340px; font-family: var(--title); font-weight: 700; font-size: 300px; line-height: 1; color: var(--accent); letter-spacing: -6px; }
+  .big-side { position: absolute; left: 1000px; top: 380px; width: 800px; padding-top: 20px; border-top: 3px solid var(--ink); }
+  .big-side .h { font-family: var(--title); font-weight: 700; font-size: 44px; line-height: 1.35; }
+  .big-side .d { font-size: 28px; line-height: 1.6; color: var(--ink-soft); margin-top: 16px; }
+
+  /* ── horizontal bars: label | bar | value ── */
+  .hrow { position: absolute; left: 120px; height: 64px; width: 1680px; }
+  .hrow .l { position: absolute; left: 0; top: 0; width: 260px; height: 64px; font-size: 28px; line-height: 64px; color: var(--ink-soft); }
+  .hrow .b { position: absolute; left: 280px; top: 8px; height: 48px; background: var(--paper-line); }
+  .hrow .b.on { background: var(--ink); }
+  .hrow .b.hot { background: var(--accent); }
+  .hrow .v { position: absolute; top: 0; height: 64px; font-family: var(--title); font-weight: 700; font-size: 34px; line-height: 64px; }
+
+  /* ── table ── */
+  table { border-collapse: collapse; position: absolute; }
+  th, td { text-align: left; vertical-align: top; padding: 20px 18px; font-size: 26px; line-height: 1.45; border-bottom: 2px solid var(--paper-line); }
+  thead th { border-bottom: 3px solid var(--ink); font-size: 22px; color: var(--ink-muted); font-weight: 400; letter-spacing: 2px; }
+  tbody th { font-family: var(--title); font-weight: 700; font-size: 28px; }
+  tr.pick th, tr.pick td { background: var(--card); border-top: 3px solid var(--accent); border-bottom: 3px solid var(--accent); }
+
+  /* ── screens: empty frames, the screenshot is filled in Canva (img does not import) ── */
+  .frame { position: absolute; border: 3px solid var(--ink); background: var(--paper-deep);
+           display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--ink-muted); }
+  .cap { position: absolute; width: 330px; text-align: center; font-size: 24px; color: var(--ink-soft); }
+  .step-no { font-family: var(--title); font-weight: 700; color: var(--accent); }
+
+  /* ── reading blocks (two or three columns of short text) ── */
+  .read { position: absolute; padding-top: 20px; border-top: 3px solid var(--ink); }
+  .read .h { font-family: var(--title); font-weight: 700; font-size: 36px; line-height: 1.35; margin-top: 10px; }
+  .read .d { font-size: 26px; line-height: 1.6; color: var(--ink-soft); margin-top: 12px; }
+  .read .d b { color: var(--accent); font-weight: 400; }
+
+  /* ── divider ── */
+  .bm-no { position: absolute; left: 0; width: 1920px; top: 960px; text-align: center; font-size: 26px; letter-spacing: 8px; color: var(--ink-muted); }
+
+  /* ── closing ── */
+  .closing h1 { position: absolute; left: 120px; top: 380px; width: 1680px; font-size: 96px; line-height: 1.3; text-align: center; }
+  .closing .sub { position: absolute; left: 0; width: 1920px; top: 700px; text-align: center; font-size: 32px; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+
+<!-- 1 · cover ─────────────────────────────────────────────── -->
+<section data-document-role="page" class="cover" data-label="1 표지"
+  data-speaker-notes="(잠깐 멈췄다가) 첫 문장은 프로젝트 이름이 아니라 고백이나 주장으로 엽니다.">
+  <h1>첫 문장은<br>결론이나 고백으로</h1>
+  <p class="sub">부제 — 오늘 무엇을 이야기하는지 한 줄</p>
+  <p class="who">이름 · 소속 · 날짜</p>
+  <div class="bm-cord" style="left:1596px;top:0;height:230px"></div>
+  <div class="bm-ring" style="left:1583px;top:222px"></div>
+  <div class="bm-body" style="left:1490px;top:248px;width:220px;height:520px"></div>
+  <div class="bm-stitch" style="left:1510px;top:268px;width:180px;height:380px"></div>
+  <div class="bm-notch" style="left:1522px;top:690px;width:156px;height:156px"></div>
+  <div class="bm-text" style="left:1510px;top:280px;width:180px;height:340px;font-size:64px;letter-spacing:6px">책<br>갈<br>피</div>
+</section>
+
+<!-- 2 · divider ───────────────────────────────────────────── -->
+<section data-document-role="page" data-label="2 섹션 01" data-speaker-notes="여기서부터 첫 번째 이야기입니다.">
+  <div class="bm-cord" style="left:958px;top:0;height:250px"></div>
+  <div class="bm-ring" style="left:945px;top:240px"></div>
+  <div class="bm-body" style="left:820px;top:268px;width:280px;height:560px"></div>
+  <div class="bm-stitch" style="left:842px;top:290px;width:236px;height:400px"></div>
+  <div class="bm-notch" style="left:860px;top:748px;width:200px;height:200px"></div>
+  <div class="bm-text" style="left:842px;top:300px;width:236px;height:380px;font-size:54px">문제<br>정의</div>
+  <p class="bm-no">SECTION 01</p>
+</section>
+
+<!-- 3 · cards ─────────────────────────────────────────────── -->
+<section data-document-role="page" data-label="3 세 가지" data-speaker-notes="세 칸을 왼쪽부터 하나씩 짚습니다. 마지막 칸이 결론입니다.">
+  <p class="label">CARDS</p>
+  <h2>제목은 이 장의 <em>결론 한 문장</em>입니다</h2>
+  <div class="sh" style="left:130px;top:430px;width:500px;height:400px"></div>
+  <div class="box card" style="left:120px;top:420px;width:500px;height:400px"><p class="k">01 · 처음</p><p class="v">필요해서</p><p class="d">짧은 설명 한두 줄.<br>숫자나 사례 하나.</p></div>
+  <div class="sh" style="left:720px;top:430px;width:500px;height:400px"></div>
+  <div class="box card" style="left:710px;top:420px;width:500px;height:400px"><p class="k">02 · 다음</p><p class="v">재미있어서</p><p class="d">카드 높이는 가장 긴<br>카드에 맞춰 통일.</p></div>
+  <div class="sh" style="left:1310px;top:430px;width:500px;height:400px"></div>
+  <div class="box card hot" style="left:1300px;top:420px;width:500px;height:400px"><p class="k">03 · 결론</p><p class="v">올해 30권</p><p class="d">강조는 한 장에<br>한 곳만 빨강.</p></div>
+  <div class="rule"></div><p class="page-no">03</p>
+</section>
+
+<!-- 4 · big number ────────────────────────────────────────── -->
+<section data-document-role="page" data-label="4 큰 숫자" data-speaker-notes="숫자를 먼저 보여 주고, 무엇의 비율인지 바로 말합니다.">
+  <p class="label">BIG NUMBER</p>
+  <h2>한 장 요약은 <em>숫자 하나</em>로</h2>
+  <p class="big">63%</p>
+  <div class="big-side"><p class="h">추천을 받고도 한 권도<br>고르지 못하고 떠났다</p><p class="d">분모와 기간을 함께 적는다.<br>예: 첫 주, 결과를 본 240명 중</p></div>
+  <div class="rule"></div><p class="page-no">04</p>
+</section>
+
+<!-- 5 · bars ──────────────────────────────────────────────── -->
+<section data-document-role="page" data-label="5 막대" data-speaker-notes="가장 긴 막대가 아니라 빨간 막대가 이야기의 중심입니다.">
+  <p class="label">BARS</p>
+  <h2>어디서 빠지는지 <em>한눈에</em></h2>
+  <div class="hrow" style="top:400px"><span class="l">질문 시작</span><span class="b on" style="width:1200px"></span><span class="v" style="left:1500px">100%</span></div>
+  <div class="hrow" style="top:500px"><span class="l">책갈피 봄</span><span class="b on" style="width:1010px"></span><span class="v" style="left:1310px">84%</span></div>
+  <div class="hrow" style="top:600px"><span class="l">끌림 표시</span><span class="b" style="width:620px"></span><span class="v" style="left:920px">52%</span></div>
+  <div class="hrow" style="top:700px"><span class="l">책 정보</span><span class="b hot" style="width:500px"></span><span class="v" style="left:800px;color:var(--accent)">42%</span></div>
+  <p class="note">막대 길이는 값에 비례하게 직접 계산해 px로 넣는다 (최대 1200px = 100%).</p>
+  <div class="rule"></div><p class="page-no">05</p>
+</section>
+
+<!-- 6 · table ─────────────────────────────────────────────── -->
+<section data-document-role="page" data-label="6 표" data-speaker-notes="고른 줄만 흰 바탕과 빨간 선으로 띄웁니다.">
+  <p class="label">TABLE</p>
+  <h2>선택지를 나란히, <em>고른 것</em>만 띄우기</h2>
+  <table style="left:120px;top:360px;width:1680px">
+    <thead><tr><th style="width:360px">안</th><th>무엇을 바꾸나</th><th style="width:300px">비용</th><th style="width:260px">결정</th></tr></thead>
+    <tbody>
+      <tr><th>A · 그대로</th><td>지금 흐름 유지</td><td>없음</td><td>비교 기준</td></tr>
+      <tr class="pick"><th>B · 바로 가기</th><td>뒤표지에서 바로 책 정보로</td><td>화면 하나</td><td style="color:var(--accent)">실험</td></tr>
+      <tr><th>C · 다시 설계</th><td>질문부터 새로</td><td>2주</td><td>보류</td></tr>
+    </tbody>
+  </table>
+  <div class="rule"></div><p class="page-no">06</p>
+</section>
+
+<!-- 7 · screens ───────────────────────────────────────────── -->
+<section data-document-role="page" data-label="7 화면" data-speaker-notes="왼쪽부터 순서대로 화면을 넘기듯 설명합니다. 캡처는 Canva에서 채웁니다.">
+  <p class="label">SCREENS</p>
+  <h2>흐름은 <em>화면 네 장</em>으로</h2>
+  <div class="frame" style="left:120px;top:330px;width:330px;height:560px">캡처 1 · 330×560</div>
+  <div class="frame" style="left:570px;top:330px;width:330px;height:560px">캡처 2 · 330×560</div>
+  <div class="frame" style="left:1020px;top:330px;width:330px;height:560px">캡처 3 · 330×560</div>
+  <div class="frame" style="left:1470px;top:330px;width:330px;height:560px">캡처 4 · 330×560</div>
+  <p class="cap" style="left:120px;top:910px"><span class="step-no">1</span> 질문</p>
+  <p class="cap" style="left:570px;top:910px"><span class="step-no">2</span> 책갈피</p>
+  <p class="cap" style="left:1020px;top:910px"><span class="step-no">3</span> 뒤표지</p>
+  <p class="cap" style="left:1470px;top:910px"><span class="step-no">4</span> 책 정보</p>
+</section>
+
+<!-- 8 · reading columns ───────────────────────────────────── -->
+<section data-document-role="page" data-label="8 세 단" data-speaker-notes="한계나 다음 할 일처럼, 짧은 글 세 덩어리를 나란히 둘 때.">
+  <p class="label">COLUMNS</p>
+  <h2>짧은 글 세 덩어리는 <em>선 위에</em></h2>
+  <div class="read" style="left:120px;top:400px;width:500px"><p class="h">표본이 작다</p><p class="d">한쪽 120명. 차이의 크기와 <b>신뢰구간</b>으로만 말한다.</p></div>
+  <div class="read" style="left:710px;top:400px;width:500px"><p class="h">기간이 짧다</p><p class="d">첫 주에 몰린 방문이 섞였다. 2주를 더 본다.</p></div>
+  <div class="read" style="left:1300px;top:400px;width:500px"><p class="h">다음 할 일</p><p class="d">같은 지표로 정해 둔 날 한 번 판정한다.</p></div>
+  <div class="rule"></div><p class="page-no">08</p>
+</section>
+
+<!-- 9 · closing ───────────────────────────────────────────── -->
+<section data-document-role="page" class="closing" data-label="9 마무리" data-speaker-notes="첫 장의 문장으로 돌아와 닫습니다. 감사합니다.">
+  <div class="bm-cord" style="left:958px;top:0;height:200px"></div>
+  <div class="bm-ring" style="left:945px;top:192px"></div>
+  <h1>첫 장의 문장으로 돌아와 닫기</h1>
+  <p class="sub">이름 · 연락처 · 링크</p>
+</section>
+
+</body>
+</html>

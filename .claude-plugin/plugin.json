@@ -1,0 +1,12 @@
+{
+  "name": "canva-deck",
+  "description": "Story-first slide decks: storyboard → hand-built HTML slides (cream paper + bookmark theme by default) → editable Canva design via the Canva connector",
+  "version": "0.1.0",
+  "author": {
+    "name": "Junhee Park"
+  },
+  "homepage": "https://github.com/JunheePark0224/canva-deck-skill",
+  "repository": "https://github.com/JunheePark0224/canva-deck-skill",
+  "license": "MIT",
+  "keywords": ["slides", "presentation", "deck", "canva", "storyboard", "html"]
+}

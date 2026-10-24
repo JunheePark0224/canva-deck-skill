@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "canva-deck-skill",
+  "description": "Story-first slide decks built as HTML and imported into Canva",
+  "owner": {
+    "name": "Junhee Park"
+  },
+  "plugins": [
+    {
+      "name": "canva-deck",
+      "description": "Story-first slide decks: storyboard → hand-built HTML slides → editable Canva design",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
