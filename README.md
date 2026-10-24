@@ -13,6 +13,12 @@ Claude가 발표 자료를 이렇게 만들게 하는 스킬입니다.
 실제 30장짜리 발표를 이 방식으로 만들며 겪은 문제 25가지와 해결 규칙이 `skills/canva-deck/references/pitfalls.md`에 있습니다
 (예: `box-shadow`·`<img>`는 Canva로 넘어오지 않음, PDF로 올리면 한글이 조각남, 병합은 한 번에 작업 하나).
 
+청중이 뒷자리에서도 읽을 수 있게 다듬은 규칙은 `references/audience.md`에 있습니다.
+- 한 장에 시선이 갈 곳은 하나
+- 22px보다 작은 글씨는 쓰지 않음
+- 강조색은 요점에만
+- 'A · B · C'처럼 조각을 이어 붙이지 않고 문장으로
+
 ## 설치
 
 ### Claude Code (플러그인으로 — 추천)
@@ -62,6 +68,7 @@ skills/canva-deck/
     robots.txt
   references/
     pitfalls.md          겪은 문제 25가지와 규칙
+    audience.md          청중이 읽기 좋은 장표 규칙 (시선 한 곳·글자 크기·대비·문장)
     canva-steps.md       올리기 → 가져오기 → 합치기 → 고치기 → 저장
     themes.md            토큰으로 테마 바꾸기 (기본 + 2종)
   scripts/

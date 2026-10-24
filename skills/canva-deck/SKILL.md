@@ -1,6 +1,6 @@
 ---
 name: canva-deck
-description: Build a presentation the story-first way: write a storyboard where every slide title is a one-sentence conclusion, hand-build the slides as HTML (a warm cream-paper + bookmark theme by default, swappable), check screenshots, host the pages, and import them into Canva as an editable design through the Canva connector, then merge, edit, place screenshots and save after the user approves. Use this whenever someone wants a deck, slides, PPT, 발표 자료, 장표, or a pitch/portfolio/project presentation designed (not just outlined), wants slides in Canva, wants to turn a report or storyboard into slides, or asks for "that paper/bookmark style" deck — even if they don't mention HTML or Canva. Not for editing an existing .pptx file (use a pptx skill) or a one-off single image.
+description: Build a presentation the story-first way: write a storyboard where every slide title is a one-sentence conclusion, hand-build the slides as HTML (a warm cream-paper + bookmark theme by default, swappable), check screenshots, host the pages, and import them into Canva as an editable design through the Canva connector, then merge, edit, place screenshots and save after the user approves. Slides are built to be read from the back of the room: one focal point, large type, one accent. Use this whenever someone wants a deck, slides, PPT, 발표 자료, 장표, or a pitch/portfolio/project presentation designed (not just outlined), wants slides in Canva, wants to turn a report or storyboard into slides, or asks for "that paper/bookmark style" deck — even if they don't mention HTML or Canva. Not for editing an existing .pptx file (use a pptx skill) or a one-off single image.
 ---
 
 # Canva deck — story first, HTML slides, Canva at the end
@@ -19,6 +19,8 @@ The flow has five stages. Don't skip ahead: each stage is cheap to change and ex
 5. **Finish in Canva** — screenshots, wording, speaker notes; save only after the user says yes
 
 Before stage 2, read `references/pitfalls.md`. It lists what broke on a real 30-slide build and the rule for each.
+Also read `references/audience.md`. It holds the readability rules (one focal point, sizes, contrast, wording) that
+turned a finished-looking deck into one people could follow from the back of the room.
 Before stage 4, read `references/canva-steps.md`.
 
 ## 1. Story
@@ -64,10 +66,19 @@ Build rules (the reasons are in `pitfalls.md`):
 
 ## 3. Check
 
-Run `node scripts/shoot.mjs part1.html shots/part1` for each part (needs Playwright; the script's header says how). Look at
-every PNG for overlaps, a title that wraps to leave one lone character on its last line, text cut off at a box edge, and
-captions running into rules. Fix these in HTML now, because Canva copies the layout exactly. Show the user the screenshots of
-the key slides before hosting.
+Run `node scripts/shoot.mjs part1.html shots/part1` for each part (needs Playwright; the script's header says how). Check
+every PNG twice.
+
+- **As a layout**: look for overlaps, a title that wraps to leave one lone character on its last line, text cut off at a box
+  edge, and captions running into rules.
+- **As the audience** (`references/audience.md`, section 5): view it at a quarter of its size. Ask four things:
+  - Does the eye land on the point first?
+  - Can every word be read? Nothing under 22px, no light-on-light text.
+  - Is there one accent, and does it mark the point?
+  - Is there any line nobody would miss? Cut it.
+
+Fix all of this in HTML now, because Canva copies the layout exactly. Show the user the screenshots of the key slides before
+hosting.
 
 ## 4. Host and import
 
